@@ -52,7 +52,7 @@ transformers = {
     "Single": float,
     "Boolean": lambda x: bool(int(x)),
     "Text": str,
-    "DateTime": str
+    "DateTime": lambda dt: time.strptime(dt, "%m/%d/%y %H:%M:%S")
 }
 
 cdef class MDB(object):
