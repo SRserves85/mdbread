@@ -47,12 +47,29 @@ cdef extern from "mdbsql.h":
     void mdb_close(MdbHandle*)
     void mdb_exit()
 
+def long_int(x):
+    try:
+        return int(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def single(x):
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def date_time(dt):
+    return pandas.to_datetime(dt, "%m/%d/%y %H:%M:%S", errors='coerce')
+
 transformers = {
-    "Long Integer": int,
-    "Single": float,
+    "Long Integer": lambda x: long_int(x)
+    "Single": lambda x: single(x),
     "Boolean": lambda x: bool(int(x)),
     "Text": str,
-    "DateTime": lambda dt: pandas.to_datetime(dt, "%m/%d/%y %H:%M:%S", errors='coerce')
+    "DateTime": lambda dt: date_time(dt)
 }
 
 cdef class MDB(object):
