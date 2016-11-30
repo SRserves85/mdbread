@@ -1,5 +1,5 @@
 import pandas
-import time
+import datetime
 from collections import namedtuple
 
 cdef extern from "glib.h":
@@ -52,7 +52,7 @@ transformers = {
     "Single": float,
     "Boolean": lambda x: bool(int(x)),
     "Text": str,
-    "DateTime": lambda dt: time.strptime(dt, "%m/%d/%y %H:%M:%S")
+    "DateTime": lambda dt: datetime.strptime(dt, "%m/%d/%y %H:%M:%S")
 }
 
 cdef class MDB(object):
